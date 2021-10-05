@@ -63,4 +63,6 @@ public class AdminEntity {
     public int hashCode() {
         return Objects.hash(id, username, password, role);
     }
+
+
 }

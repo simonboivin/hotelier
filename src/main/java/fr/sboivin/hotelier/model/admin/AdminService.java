@@ -37,5 +37,9 @@ public class AdminService {
         return admin;
     }
 
+    public Optional<AdminEntity> getAdminByUsername(String username){
+        return adminRepository.findByUsername(username);
+    }
+
 }
 

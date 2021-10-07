@@ -4,6 +4,7 @@ import fr.sboivin.hotelier.model.admin.AdminEntity;
 import fr.sboivin.hotelier.model.admin.AdminService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import java.util.Optional;
 public class LoginControllerApi {
 
     private final AdminService adminService;
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public LoginControllerApi(AdminService adminService) {
         this.adminService = adminService;
@@ -28,7 +30,7 @@ public class LoginControllerApi {
         Optional<AdminEntity> adminOptional = adminService.getAdminByUsername(adminInput.getUsername());
         if (adminOptional.isPresent()) {
             AdminEntity admin = adminOptional.get();
-            if (adminInput.getPassword().equals(admin.getPassword())) {
+            if (encoder.matches(adminInput.getPassword(), admin.getPassword())) {
                 admin.setPassword("***");
                 return ResponseEntity.status(HttpStatus.OK).body(admin);
             } else {

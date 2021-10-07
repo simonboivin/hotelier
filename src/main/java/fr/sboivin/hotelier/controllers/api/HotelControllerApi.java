@@ -35,7 +35,6 @@ public class HotelControllerApi {
         }
     }
 
-
     @PostMapping(path = "", produces = "application/json")
     public ResponseEntity<HotelEntity> addHotelApi(@RequestBody HotelEntity hotelRequestInput) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
@@ -46,6 +45,26 @@ public class HotelControllerApi {
                         hotelRequestInput.getEmail(),
                         hotelRequestInput.getVille())
         );
+    }
+
+
+    @PutMapping(path = "/{id}", produces = "application/json")
+    public ResponseEntity<HotelEntity> editHotelApi(@RequestBody HotelEntity hotelRequestInput, @PathVariable Integer id) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                hotelService.editHotelById(id,
+                        hotelRequestInput.getNom(),
+                        hotelRequestInput.getEtoiles(),
+                        hotelRequestInput.getAdresse(),
+                        hotelRequestInput.getTelephone(),
+                        hotelRequestInput.getEmail(),
+                        hotelRequestInput.getVille())
+        );
+    }
+
+    @DeleteMapping(path = "/{id}", produces = "application/json")
+    public ResponseEntity deleteHotelByIdApi(@PathVariable Integer id) {
+        hotelService.deleteHotelById(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }

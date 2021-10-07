@@ -15,7 +15,7 @@ public class ClientEntity implements Serializable {
     @Column(name = "nom_complet", nullable = false)
     private String nom;
 
-    @Column(length = 12, unique = true) //format international e.g. +33101010101
+    @Column(length = 12) //format international e.g. +33101010101
     private String telephone;
 
     @Column(unique = true)

@@ -18,6 +18,9 @@ class ClientServiceTest {
     @Autowired
     private ClientService clientService;
 
+    private String randomNoTelephone(){
+        return "+33"+UUID.randomUUID().toString().substring(0,9);
+    }
 
     private Integer compteIterableElement(Iterable<ClientEntity> iterable) {
         Integer count = 0;
@@ -30,20 +33,20 @@ class ClientServiceTest {
 
     @Test
     void testGetClientById() {
-        ClientEntity client = clientService.addClient("Nom" + UUID.randomUUID(), "+33102030405", UUID.randomUUID() + "@test.com", "1 Rue du Test - 99999 Test-les-Bains");
+        ClientEntity client = clientService.addClient("Nom" + UUID.randomUUID(), "+33"+UUID.randomUUID().toString().substring(0,9), UUID.randomUUID() + "@test.com", "1 Rue du Test - 99999 Test-les-Bains");
         assertEquals(client, clientService.getClientById(client.getId()).get());
     }
 
     @Test
     void testAddClient() {
         Integer nombreClientInitial = compteIterableElement(clientService.getClientList());
-        clientService.addClient("Nom" + UUID.randomUUID(), "+33102030405", UUID.randomUUID() + "@test.com", "1 Rue du Test - 99999 Test-les-Bains");
+        clientService.addClient("Nom" + UUID.randomUUID(), randomNoTelephone(), UUID.randomUUID() + "@test.com", "1 Rue du Test - 99999 Test-les-Bains");
         assertEquals(nombreClientInitial + 1, compteIterableElement(clientService.getClientList()));
     }
 
     @Test
     void testEditClientById() {
-        ClientEntity client = clientService.addClient("Nom" + UUID.randomUUID(), "+33102030405", UUID.randomUUID() + "@test.com", "1 Rue du Test - 99999 Test-les-Bains");
+        ClientEntity client = clientService.addClient("Nom" + UUID.randomUUID(), randomNoTelephone(), UUID.randomUUID() + "@test.com", "1 Rue du Test - 99999 Test-les-Bains");
         String nouveauNom = "Ceci_est_un_nom_pour_un_test";
         clientService.editClientById(client.getId(), nouveauNom, client.getTelephone(), client.getEmail(), client.getAdresse());
         assertEquals(nouveauNom, clientService.getClientById(client.getId()).get().getNom());
@@ -51,7 +54,7 @@ class ClientServiceTest {
 
     @Test
     void testDeleteClientById() {
-        ClientEntity client = clientService.addClient("Nom" + UUID.randomUUID(), "+33102030405", UUID.randomUUID() + "@test.com", "1 Rue du Test - 99999 Test-les-Bains");
+        ClientEntity client = clientService.addClient("Nom" + UUID.randomUUID(), randomNoTelephone(), UUID.randomUUID() + "@test.com", "1 Rue du Test - 99999 Test-les-Bains");
         clientService.deleteClientById(client.getId());
         assertFalse(clientService.getClientById(client.getId()).isPresent());
     }

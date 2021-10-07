@@ -3,6 +3,7 @@ package fr.sboivin.hotelier.config.init;
 import fr.sboivin.hotelier.model.admin.AdminRepository;
 import fr.sboivin.hotelier.model.admin.AdminService;
 import fr.sboivin.hotelier.model.admin.Role;
+import fr.sboivin.hotelier.model.client.ClientService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,5 +25,7 @@ public class LoadDatabase {
             }
         };
     }
+
+
 
 }

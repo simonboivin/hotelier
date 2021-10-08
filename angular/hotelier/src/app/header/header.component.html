@@ -1,2 +1,40 @@
-<p>header works!</p>
-<button [routerLink]="['login']">Login test</button>
+<header class="container-fluid  px-0 ">
+
+
+    <nav class="navbar navbar-dark bg-primary bg-gradient fixed-top">
+
+        <a class="navbar-brand ms-5" href="#">
+            <H1 class="my-0 h2">
+                Hôtelier
+            </H1>
+        </a>
+        <nav class="nav ms-2 me-auto" *ngIf="auth.isConnected()">
+
+            <a class="nav-link text-light fs-5" [routerLink]="['clients']">Clients</a>
+
+
+        </nav>
+
+        <div class="me-5" *ngIf="!auth.isConnected()">
+            <button type="button" class="btn btn-outline-light" [routerLink]="['login']"> Se connecter</button>
+
+        </div>
+
+
+
+        <div class="dropdown me-5" *ngIf="auth.isConnected()">
+            <a class="btn btn-warning dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Bonjour {{ userConnected.username }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+
+                <li><a class="dropdown-item" [routerLink]="['logout']">Logout</a></li>
+
+            </ul>
+        </div>
+
+    </nav>
+
+
+</header>

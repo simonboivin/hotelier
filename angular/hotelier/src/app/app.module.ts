@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -25,8 +24,7 @@ import { LogoutComponent } from './logout/logout.component';
     BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
-    HttpClientModule,
-    NgbModule
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

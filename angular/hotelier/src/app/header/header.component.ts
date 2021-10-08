@@ -1,15 +1,25 @@
 import { Component, OnInit } from '@angular/core';
+import { AdminEntity } from '../classes/entities/admin-entity';
+import { AuthGuard } from '../guards/auth.guard';
 
-@Component({
+@Component( {
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
-})
+} )
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  userConnected: AdminEntity = new AdminEntity();
+ 
 
-  ngOnInit(): void {
+  constructor( public auth: AuthGuard ) { }
+
+  ngOnInit (): void {
+       if ( this.auth.isConnected() ) {
+      this.userConnected = JSON.parse( sessionStorage.getItem( "connectedUser" )! );
+    }
+
+
   }
 
 }

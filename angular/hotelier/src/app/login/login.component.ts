@@ -1,6 +1,6 @@
-import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AdminEntity } from '../classes/entities/admin-entity';
 import { AdminService } from '../services/admin.service';
 
 @Component( {
@@ -11,11 +11,13 @@ import { AdminService } from '../services/admin.service';
 export class LoginComponent implements OnInit {
 
 
-  public newAdmin: any = {
-    username: "",
-    password: ""
-  };
+  /*   public newAdmin: any = {
+      username: "",
+      password: ""
+    };
+   */
 
+  public newAdmin: AdminEntity = new AdminEntity();
 
   public erreur: boolean = false;
 
@@ -30,10 +32,15 @@ export class LoginComponent implements OnInit {
         console.log( 'tentative de login' );
         console.log( data );
         if ( data.id > 0 ) {
-          sessionStorage.setItem( "connectedUser", data );    
+
+          sessionStorage.setItem( "connectedUser", JSON.stringify( data ) );
           sessionStorage.setItem( "connectedUserToken", 'Basic ' + btoa( this.newAdmin.username + ':' + this.newAdmin.password ) );
+          console.log( data );
           console.log( "Login ok, redirection..." );
-          this.router.navigate( [''] );
+
+          this.router.navigate( ['/clients'] ).then( () => {
+            window.location.reload();
+          } );
         } else {
           this.erreur = true;
         }

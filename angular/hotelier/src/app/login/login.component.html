@@ -1,0 +1,15 @@
+<div class="container my-3">
+    <h1 class="h2 mb-3">Connexion</h1>
+    <div class="text-danger" *ngIf="erreur">Nom d'utilisateur ou mot de passe incorrect<br><br></div>
+    <form name="monForm" action="" method="post" (submit)="authentification()" ngNativeValidate>
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Nom d'utilisateur</label>
+            <input type="text" name="usernane" class="form-control" [(ngModel)]="newAdmin.username" >
+        </div>
+        <div class="mb-5">
+            <label for="exampleInputPassword1" class="form-label">Mot de passe</label>
+            <input type="password" name="password" class="form-control" [(ngModel)]="newAdmin.password">
+        </div>
+        <button type="submit" class="btn btn-primary">Se connecter</button>
+    </form>
+</div>

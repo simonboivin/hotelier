@@ -16,14 +16,11 @@ export class LoginComponent implements OnInit {
   };
 
 
-
   public erreur: boolean = false;
 
   constructor( private adminService: AdminService, private router: Router ) { }
 
   ngOnInit (): void {
-
-
   }
 
   authentification () {

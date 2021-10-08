@@ -9,12 +9,14 @@ import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
+import { ClientsComponent } from './clients/clients.component';
 
 @NgModule( {
   declarations: [
     AppComponent,
     HeaderComponent,
-    LoginComponent
+    LoginComponent,
+    ClientsComponent
   ],
   imports: [
     AppRoutingModule,

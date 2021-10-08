@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AdminService } from '../services/admin.service';
@@ -29,7 +30,8 @@ export class LoginComponent implements OnInit {
         console.log( 'tentative de login' );
         console.log( data );
         if ( data.id > 0 ) {
-          sessionStorage.setItem( "connectedUser", data );
+          sessionStorage.setItem( "connectedUser", data );    
+          sessionStorage.setItem( "connectedUserToken", 'Basic ' + btoa( this.newAdmin.username + ':' + this.newAdmin.password ) );
           console.log( "Login ok, redirection..." );
           this.router.navigate( [''] );
         } else {

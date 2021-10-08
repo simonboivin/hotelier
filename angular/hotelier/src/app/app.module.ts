@@ -10,13 +10,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { ClientsComponent } from './clients/clients.component';
+import { LogoutComponent } from './logout/logout.component';
 
 @NgModule( {
   declarations: [
     AppComponent,
     HeaderComponent,
     LoginComponent,
-    ClientsComponent
+    ClientsComponent,
+    LogoutComponent
   ],
   imports: [
     AppRoutingModule,

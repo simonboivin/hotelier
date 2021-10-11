@@ -2,6 +2,7 @@ package fr.sboivin.hotelier.model.resa;
 
 import fr.sboivin.hotelier.model.client.ClientEntity;
 import fr.sboivin.hotelier.model.hotel.HotelEntity;
+import fr.sboivin.hotelier.model.hotel.HotelService;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +13,11 @@ import java.util.Optional;
 public class ResaService {
 
     private final ResaRepository resaRepository;
+    private final HotelService hotelService;
 
-    public ResaService(ResaRepository resaRepository) {
+    public ResaService(ResaRepository resaRepository, HotelService hotelService) {
         this.resaRepository = resaRepository;
+        this.hotelService = hotelService;
     }
 
     /**
@@ -31,6 +34,26 @@ public class ResaService {
      */
     public Optional<ResaEntity> getResaById(Integer id) {
         return resaRepository.findById(id);
+    }
+
+    /**
+     * Chercher une réservation par nom de client
+     * @param client Nom du client
+     */
+    public Iterable<ResaEntity> getResaListSearchByClient(String client) {
+        return resaRepository.findAllByClient_NomContains(client);
+    }
+    /**
+     * Obtenir la liste des réservations pour un hôtel
+     *
+     * @param hotelId  Id de l'Hôtel
+     */
+    public Iterable<ResaEntity> getResaListForOneHotel(Integer hotelId) {
+        return resaRepository.findAllByHotel(hotelService.getHotelById(hotelId).orElse(null));
+    }
+
+    public Iterable<ResaEntity> getResaListForOneHotelAndClient(Integer hotelId, String search) {
+        return resaRepository.findAllByHotelAndClient_NomContains(hotelService.getHotelById(hotelId).orElse(null), search);
     }
 
     /**

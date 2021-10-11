@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @RestController
@@ -27,9 +28,15 @@ public class ResaControllerApi {
     }
 
     @GetMapping(path = "", produces = "application/json")
-    public Iterable<ResaEntity> getResaList() {
-        return resaService.getResaList();
+    public Iterable<ResaEntity> getResaList( HttpServletRequest request) {
+
+        if (request.getParameter("search") == null | request.getParameter("search")=="") {
+            return resaService.getResaList();
+        } else {
+            return resaService.getResaListSearchByClient(request.getParameter("search"));
+        }
     }
+
 
     @GetMapping(path = "/{id}", produces = "application/json")
     public ResaEntity getResaById(@PathVariable Integer id) {
@@ -38,6 +45,15 @@ public class ResaControllerApi {
             return resaOptional.get();
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Erreur - La réservation n'a pas été trouvée");
+        }
+    }
+
+    @GetMapping(path = "/filtered/hotel/{hotelId}", produces = "application/json")
+    public Iterable<ResaEntity> getResaListByHotel(@PathVariable Integer hotelId, HttpServletRequest request) {
+        if (request.getParameter("search") == null | request.getParameter("search")=="") {
+            return resaService.getResaListForOneHotel(hotelId);
+        } else {
+            return resaService.getResaListForOneHotelAndClient(hotelId, request.getParameter("search"));
         }
     }
 

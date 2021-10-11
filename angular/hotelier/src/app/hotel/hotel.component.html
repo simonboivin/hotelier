@@ -1,0 +1,111 @@
+<div class="container pt-2">
+    <h1 class="mb-4">Liste des Hôtels</h1>
+    <div class="mb-4">
+        <button (click)="refreshView()" class="btn btn-primary me-3">
+            <fa-icon [icon]="faSync"></fa-icon>
+        </button>
+
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal" (click)="add()">
+            <fa-icon [icon]=faPlusCircle class="me-1"></fa-icon> Ajouter un hôtel
+        </button>
+    </div>
+
+    <div class="row">
+        <ng-container *ngFor="let hotel of hotelList">
+            <ng-container *ngTemplateOutlet="hotelCardTemplate; context: {item:hotel}"></ng-container>
+        </ng-container>
+    </div>
+
+
+
+
+    <ng-template #hotelCardTemplate let-hotel="item">
+        <div class="col-6">
+            <div class="card  bg-warning bg-gradient bg-opacity-50 w-100 m-2" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">
+                        <fa-icon [icon]="faHotel" class="me-2"></fa-icon> <u class="me-2">{{hotel.nom}}</u>
+                        <span *ngFor="let i of [].constructor(hotel.etoiles)">
+                            <fa-icon [icon]="faStar" class=""></fa-icon>
+                        </span>
+                    </h5>
+                    <div class="card-text ps-2">
+                        <div class="mb-3">{{hotel.adresse}}</div>
+                        <div class="mb-2">
+                            <fa-icon [icon]="faPhone" class="me-2"></fa-icon>{{hotel.telephone}}
+                        </div>
+                        <div class="mb-3">
+                            <fa-icon [icon]="faAt" class="me-2"></fa-icon><a
+                                href="mailto:{{hotel.email}}">{{hotel.email}}</a>
+                        </div>
+                        <div class="mb-3">{{hotel.ville}}</div>
+                        <div class="text-start">
+                            <button type="button" class="btn btn-primary me-3" data-bs-toggle="modal"
+                                data-bs-target="#modal" (click)="edit(hotel.id)">
+                                <fa-icon [icon]=faEdit class="me-1"></fa-icon> Editer
+                            </button>
+
+                            <button type="button" class="btn btn-danger" (click)="delete(hotel)">
+                                <fa-icon [icon]="faTrash" class="me-1"></fa-icon> Supprimer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+
+</div>
+
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalAddEdit" aria-hidden="true">
+    <div class="modal-dialog">
+        <form name="hotelForm" ngNativeValidate (submit)="submitForm()">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{modalTitre}}</h5>
+                    <button type="button" class="btn-close" #closeModalButton data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <label for="nom" class="input-group-text">Nom</label>
+
+                        <input type="text" class="form-control" id="nom" name="nom" placeholder="Nom"
+                            [(ngModel)]="hotel.nom" ngModel minlength="2" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label for="classe" class="input-group-text">Classe</label>
+                        <input type="number" class="form-control" id="classe" name="classe" [(ngModel)]="hotel.etoiles"
+                            max="5" ngModel required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label for="adresse" class="input-group-text">Adresse</label>
+                        <input type="text" class="form-control" id="adresse" name="adresse" placeholder="Adresse"
+                            [(ngModel)]="hotel.adresse" ngModel minlength="2" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label for="telephone" class="input-group-text">Téléphone</label>
+                        <input type="text" class="form-control" id="telephone" name="telephone"
+                            placeholder="+33900000000" [(ngModel)]="hotel.telephone" ngModel required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label for="email" class="input-group-text">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Email"
+                            [(ngModel)]="hotel.email" ngModel required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label for="ville" class="input-group-text">Ville</label>
+                        <input type="text" class="form-control" id="ville" name="ville" placeholder="Ville"
+                            [(ngModel)]="hotel.ville" ngModel required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Valider</button>
+                    <button type="reset" class="btn btn-danger float-end">Reset</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

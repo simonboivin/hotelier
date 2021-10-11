@@ -21,7 +21,7 @@ public class HotelEntity implements Serializable {
     @Column()
     private String adresse;
 
-    @Column(length = 12, unique = true) //format international e.g. +33101010101
+    @Column(length = 12) //format international e.g. +33101010101
     private String telephone;
 
     @Column(unique = true)

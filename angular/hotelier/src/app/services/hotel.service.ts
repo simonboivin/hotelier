@@ -17,6 +17,10 @@ export class HotelService {
     return this.httpClient.get<HotelEntity[]>( environment.urlApi + "hotel/", this.apiconfigService.getHttpOptions() );
   }
 
+  getHotelById ( id: number ): Observable<HotelEntity> {
+    return this.httpClient.get<HotelEntity>( environment.urlApi + "hotel/" + id, this.apiconfigService.getHttpOptions() );
+  }
+
   addHotel ( newHotel: HotelEntity ): Observable<HotelEntity> {
     return this.httpClient.post<HotelEntity>( environment.urlApi + "hotel/", newHotel, this.apiconfigService.getHttpOptions() );
   }
@@ -26,8 +30,8 @@ export class HotelService {
   }
 
 
-  deleteHotel ( hotelToDelete: HotelEntity ): void {
-    this.httpClient.delete( environment.urlApi + "hotel/" + hotelToDelete.id, this.apiconfigService.getHttpOptions() );
+  deleteHotel ( hotelToDelete: HotelEntity ): Observable<HotelEntity> {
+    return this.httpClient.delete<HotelEntity>( environment.urlApi + "hotel/" + hotelToDelete?.id, this.apiconfigService.getHttpOptions() );
   }
 
 }

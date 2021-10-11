@@ -41,6 +41,11 @@ public class ResaControllerApi {
         }
     }
 
+    @GetMapping(path = "/filtered/hotel/{hotelId}", produces = "application/json")
+    public Iterable<ResaEntity> getResaListByHotel(@PathVariable Integer hotelId) {
+        return resaService.getResaListForOneHotel(hotelId);
+    }
+
     @PostMapping(path = "", produces = "application/json")
     public ResponseEntity<ResaEntity> addResaApi(@RequestBody ResaEntity resaRequestInput) {
         return ResponseEntity.status(HttpStatus.CREATED).body(

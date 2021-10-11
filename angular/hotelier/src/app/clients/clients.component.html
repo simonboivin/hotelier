@@ -1,1 +1,107 @@
-<p>clients works!</p>
+<div class="container pt-2">
+    <h1 class="mb-4">Liste des Clients</h1>
+
+    <div class="m-3">
+        <div class="alert alert-success mb-3 alert-dismissible fade show" role="alert" *ngFor="let successMessage of successMessageList">
+            <fa-icon [icon]="faCheckCircle" class="me-2"></fa-icon>{{successMessage}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <div class="alert alert-danger mb-3 alert-dismissible fade show" role="alert" *ngFor="let errorMessage of errorMessageList">
+            <fa-icon [icon]="faExclamationTriangle" class="me-2"></fa-icon>{{errorMessage}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+
+
+
+    <div class="mb-4">
+        <button (click)="refreshView()" class="btn btn-primary me-3">
+            <fa-icon [icon]="faSync"></fa-icon>
+        </button>
+
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal" (click)="add()">
+            <fa-icon [icon]=faPlusCircle class="me-1"></fa-icon> Ajouter un client
+        </button>
+    </div>
+
+    <table class="table table-striped table-warning">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nom</th>
+                <th>Téléphone</th>
+                <th>Email</th>
+                <th>Adresse</th>
+                <th>
+                    <fa-icon [icon]="faCogs"></fa-icon>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let client of clientsList">
+                <td>{{client.id}}</td>
+                <td>{{client.nom}}</td>
+                <td>{{client.telephone}}</td>
+                <td>{{client.email}}</td>
+                <td>{{client.adresse}}</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modal"
+                            (click)="edit(client.id!)">
+                            <fa-icon [icon]=faEdit></fa-icon>
+                        </button>
+                        <button type="button" class="btn btn-danger" (click)="delete(client)">
+                            <fa-icon [icon]="faTrash"></fa-icon>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+</div>
+
+
+
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalAddEdit" aria-hidden="true">
+    <div class="modal-dialog">
+        <form name="clientForm" ngNativeValidate (submit)="submitForm()">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{modalTitre}}</h5>
+                    <button type="button" class="btn-close" #closeModalButton data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <label for="nom" class="input-group-text">Nom</label>
+                        <input type="text" class="form-control" id="nom" name="nom" placeholder="Nom"
+                            [(ngModel)]="client.nom" ngModel minlength="2" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label for="telephone" class="input-group-text">Téléphone</label>
+                        <input type="text" class="form-control" id="telephone" name="telephone" placeholder="Téléphone"
+                            [(ngModel)]="client.telephone" ngModel minlength="2" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label for="email" class="input-group-text">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Email"
+                            [(ngModel)]="client.email" ngModel required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label for="adresse" class="input-group-text">Adresse</label>
+                        <input type="text" class="form-control" id="adresse" name="adresse" placeholder="Adresse"
+                            [(ngModel)]="client.adresse" ngModel required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Valider</button>
+                    <button type="button" class="btn btn-danger float-end" (click)="reset()">Reset</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

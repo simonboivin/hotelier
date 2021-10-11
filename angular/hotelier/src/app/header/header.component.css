@@ -1,4 +1,10 @@
-.image_profils {
-    width: 35px;
-    border-radius: 50%;
+.navbar {
+    height: 70px;
+    padding: 10px 5px;
 }
+
+a {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+

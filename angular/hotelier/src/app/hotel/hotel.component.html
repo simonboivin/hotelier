@@ -1,0 +1,38 @@
+<div class="container pt-2">
+    <h1 class="mb-4">Liste des Hôtels</h1>
+
+
+
+
+    <div class="row">
+        <ng-container *ngFor="let hotel of hotelList">
+            <ng-container *ngTemplateOutlet="hotelCardTemplate; context: {item:hotel}"></ng-container>
+        </ng-container>
+    </div>
+
+
+
+
+    <ng-template #hotelCardTemplate let-hotel="item">
+        <div class="col-6">
+            <div class="card  bg-warning bg-gradient bg-opacity-50 w-100 m-2" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">
+                        <fa-icon [icon]="faHotel" class="me-2"></fa-icon> <u class="me-2">{{hotel.nom}}</u>
+                        <span *ngFor="let i of [].constructor(hotel.etoiles)">
+                            <fa-icon [icon]="faStar" class=""></fa-icon>
+                        </span>
+                    </h5>
+                    <div class="card-text">
+                        <div class="mb-3">{{hotel.adresse}}</div>
+                        <div class="mb-2"> <fa-icon [icon]="faPhone" class="me-2"></fa-icon>{{hotel.telephone}}</div>
+                        <div class="mb-3"> <fa-icon [icon]="faAt" class="me-2"></fa-icon><a href="mailto:{{hotel.email}}">{{hotel.email}}</a></div>
+                        <div class="">{{hotel.ville}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+
+</div>

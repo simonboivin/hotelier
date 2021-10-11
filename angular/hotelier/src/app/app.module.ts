@@ -10,6 +10,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { ClientsComponent } from './clients/clients.component';
 import { LogoutComponent } from './logout/logout.component';
+import { HotelComponent } from './hotel/hotel.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 
 @NgModule( {
   declarations: [
@@ -17,16 +20,18 @@ import { LogoutComponent } from './logout/logout.component';
     HeaderComponent,
     LoginComponent,
     ClientsComponent,
-    LogoutComponent
+    LogoutComponent,
+    HotelComponent
   ],
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 } )
-export class AppModule { }
+export class AppModule {}

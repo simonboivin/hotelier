@@ -10,8 +10,7 @@
         <nav class="nav ms-2 me-auto" *ngIf="auth.isConnected()">
             <a class="nav-link text-light fs-5" [routerLink]="['hotel']">Hôtels</a>
             <a class="nav-link text-light fs-5" [routerLink]="['clients']">Clients</a>
-
-
+            <a class="nav-link text-light fs-5" [routerLink]="['resa']">Réservations</a>
         </nav>
 
         <div class="me-5" *ngIf="!auth.isConnected()">

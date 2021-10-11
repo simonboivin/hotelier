@@ -12,6 +12,7 @@ import { ClientsComponent } from './clients/clients.component';
 import { LogoutComponent } from './logout/logout.component';
 import { HotelComponent } from './hotel/hotel.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ReservationsComponent } from './reservations/reservations.component';
 
 
 @NgModule( {
@@ -21,7 +22,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     LoginComponent,
     ClientsComponent,
     LogoutComponent,
-    HotelComponent
+    HotelComponent,
+    ReservationsComponent
   ],
   imports: [
     AppRoutingModule,

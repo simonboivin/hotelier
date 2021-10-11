@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { faAt, faCheckCircle, faCogs, faEdit, faExclamationTriangle, faHotel, faPhone, faPlusCircle, faStar, faSync, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faAt, faCheckCircle, faCogs, faEdit, faExclamationTriangle, faFilter, faHotel, faPhone, faPlusCircle, faSearch, faStar, faSync, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { ClientEntity } from '../classes/entities/client-entity';
 import { HotelEntity } from '../classes/entities/hotel-entity';
 import { ResaEntity } from '../classes/entities/resa-entity';
@@ -20,8 +20,10 @@ export class ReservationsComponent implements OnInit {
   resa: ResaEntity = new ResaEntity();
 
   clientList: ClientEntity[] = [];
+  clientRecherche: string = "";
 
   hotelList: HotelEntity[] = [];
+  hotelIdFiltre: number = 0;
 
   modalTitre: string = "N/A";
   errorMessageList: string[] = [];
@@ -36,9 +38,11 @@ export class ReservationsComponent implements OnInit {
   faCogs = faCogs;
   faEdit = faEdit;
   faExclamationTriangle = faExclamationTriangle;
+  faFilter = faFilter;
   faHotel = faHotel;
   faPhone = faPhone;
   faPlusCircle = faPlusCircle;
+  faSearch = faSearch;
   faStar = faStar;
   faSync = faSync;
   faTrash = faTrash;
@@ -126,6 +130,23 @@ export class ReservationsComponent implements OnInit {
   }
   compareClientFn ( c1: ClientEntity, c2: ClientEntity ): boolean {
     return c1 && c2 ? c1.id === c2.id : c1 === c2;
+  }
+
+
+  filtrer (): void {
+    console.log( "Recherche:" );
+    console.log( this.hotelIdFiltre );
+    console.log( this.clientRecherche );
+    if ( this.hotelIdFiltre == 0 ) {
+      this.resaService.getResaSearchedByClient( this.clientRecherche ).subscribe( data => {
+        this.resaList = data;
+      } );
+    } else {
+      this.resaService.getResaByHotelAndClient( this.hotelIdFiltre, this.clientRecherche ).subscribe( data => {
+        console.log( data );
+        this.resaList = data;
+      } );
+    }
   }
 
 

@@ -20,6 +20,22 @@ export class ResaService {
     return this.httpClient.get<ResaEntity>( environment.urlApi + "resa/" + id, this.apiconfigService.getHttpOptions() );
   }
 
+  getResaByHotelAndClient ( hotelId: number, clientCheche: string ): Observable<ResaEntity[]> {
+    let searchCondition: String = "";
+    if ( clientCheche.length > 0 ) {
+      searchCondition = "?search=" + clientCheche;
+    }
+    return this.httpClient.get<ResaEntity[]>( environment.urlApi + "resa/filtered/hotel/" + hotelId + searchCondition, this.apiconfigService.getHttpOptions() );
+  }
+
+  getResaSearchedByClient ( clientCheche: string ): Observable<ResaEntity[]> {
+    let searchCondition: String = "";
+    if ( clientCheche.length > 0 ) {
+      searchCondition = "?search=" + clientCheche;
+    }
+    return this.httpClient.get<ResaEntity[]>( environment.urlApi + "resa" + searchCondition, this.apiconfigService.getHttpOptions() );
+  }
+
   addResa ( newResa: ResaEntity ): Observable<ResaEntity> {
     return this.httpClient.post<ResaEntity>( environment.urlApi + 'resa/', newResa, this.apiconfigService.getHttpOptions() );
   }

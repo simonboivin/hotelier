@@ -37,12 +37,23 @@ public class ResaService {
     }
 
     /**
+     * Chercher une réservation par nom de client
+     * @param client Nom du client
+     */
+    public Iterable<ResaEntity> getResaListSearchByClient(String client) {
+        return resaRepository.findAllByClient_NomContains(client);
+    }
+    /**
      * Obtenir la liste des réservations pour un hôtel
      *
      * @param hotelId  Id de l'Hôtel
      */
     public Iterable<ResaEntity> getResaListForOneHotel(Integer hotelId) {
         return resaRepository.findAllByHotel(hotelService.getHotelById(hotelId).orElse(null));
+    }
+
+    public Iterable<ResaEntity> getResaListForOneHotelAndClient(Integer hotelId, String search) {
+        return resaRepository.findAllByHotelAndClient_NomContains(hotelService.getHotelById(hotelId).orElse(null), search);
     }
 
     /**

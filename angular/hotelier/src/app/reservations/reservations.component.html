@@ -16,14 +16,37 @@
 
 
 
-    <div class="mb-4">
-        <button (click)="refreshView()" class="btn btn-primary me-3">
-            <fa-icon [icon]="faSync"></fa-icon>
-        </button>
-
-        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal" (click)="add()">
-            <fa-icon [icon]=faPlusCircle class="me-1"></fa-icon> Ajouter une réservation
-        </button>
+    <div class="mb-4 row row-cols-lg-auto">
+        <div class="col-6">
+            <button (click)="refreshView()" class="btn btn-primary me-3">
+                <fa-icon [icon]="faSync"></fa-icon>
+            </button>
+            <button type="button" class="btn btn-success me-3" data-bs-toggle="modal" data-bs-target="#modal"
+                (click)="add()">
+                <fa-icon [icon]=faPlusCircle class="me-1"></fa-icon> Ajouter une réservation
+            </button>
+        </div>
+        <div class="col-2 mx-auto ">
+            <div class="input-group"> 
+                <button type="button" class="btn btn-secondary" (click)="filtrer()" >
+                    <fa-icon [icon]=faSearch class="me-2"></fa-icon>Chercher par client
+                </button>
+                <input type="text" class="form-control" placeholder="Client" [(ngModel)]="clientRecherche" ngModel>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="input-group">
+                <button type="button" class="btn btn-warning" (click)="filtrer()">
+                    <fa-icon [icon]=faFilter class="me-2"></fa-icon>Filtrer par hôtel
+                </button>
+                <select class="form-select" name="hotel" id="hotel"
+                    [(ngModel)]="hotelIdFiltre" ngModel>
+                    <option value="0" selected>Tous les hôtels</option>
+                    <option *ngFor="let hotel of hotelList" [ngValue]="hotel.id">{{ hotel.nom }}</option>
+                </select>
+                
+            </div>
+        </div>
     </div>
 
     <table class="table table-striped table-warning">
@@ -104,7 +127,8 @@
                     </div>
                     <div class="input-group flex-nowrap mb-3">
                         <label for="num_chambre" class="input-group-text">Chambre n°</label>
-                        <input type="number" class="ps-2" name="num_chambre" id="num_chambre" max=100 [(ngModel)]="resa.num_chambre" ngModel>
+                        <input type="number" class="ps-2" name="num_chambre" id="num_chambre" max=100
+                            [(ngModel)]="resa.num_chambre" ngModel>
                     </div>
                 </div>
                 <div class="modal-footer">

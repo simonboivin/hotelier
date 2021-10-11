@@ -1,6 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~bootstrap/dist/css/bootstrap.min.css";
 
-body{
-margin-top: 85px;
+@import "~bootstrap/dist/css/bootstrap.min.css";
+:root {
+    --bs-info: #d76e1e;
+    --bs-info-rgb: 215, 110, 30;
+}
+
+body {
+    margin-top: 85px;
 }

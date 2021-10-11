@@ -1,12 +1,11 @@
 <header class="container-fluid  px-0 ">
 
 
-    <nav class="navbar navbar-dark bg-primary bg-gradient fixed-top align-middle">
+    <nav class="navbar navbar-dark bg-info bg-gradient fixed-top align-middle">
 
         <a class="navbar-brand ms-5" href="#">
-            <H1 class="h2">
-                Hôtelier
-            </H1>
+            <H1 class="h2 border border-1 border-light px-3 py-1 rounded">
+                <fa-icon [icon]= "faHSquare" class="me-2"></fa-icon>Hôtelier</H1>
         </a>
         <nav class="nav ms-2 me-auto" *ngIf="auth.isConnected()">
             <a class="nav-link text-light fs-5" [routerLink]="['hotel']">Hôtels</a>

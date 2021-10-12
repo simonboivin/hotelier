@@ -51,7 +51,7 @@ public class ClientControllerApi {
 
 
     @PutMapping(path = "/{id}", produces = "application/json")
-    public ResponseEntity<ClientEntity> editClientApi(@RequestBody ClientEntity clientRequestInput, @PathVariable Integer id) {
+    public ResponseEntity<ClientEntity> editClientApi(@Valid @RequestBody ClientEntity clientRequestInput, @PathVariable Integer id) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 clientService.editClientById(id,
                         clientRequestInput.getNom(),

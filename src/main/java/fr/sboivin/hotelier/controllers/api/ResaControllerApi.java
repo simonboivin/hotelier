@@ -2,15 +2,21 @@ package fr.sboivin.hotelier.controllers.api;
 
 import fr.sboivin.hotelier.model.client.ClientService;
 import fr.sboivin.hotelier.model.hotel.HotelService;
+import fr.sboivin.hotelier.model.resa.ChamberNotFreeException;
 import fr.sboivin.hotelier.model.resa.ResaEntity;
 import fr.sboivin.hotelier.model.resa.ResaService;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -28,9 +34,9 @@ public class ResaControllerApi {
     }
 
     @GetMapping(path = "", produces = "application/json")
-    public Iterable<ResaEntity> getResaList( HttpServletRequest request) {
+    public Iterable<ResaEntity> getResaList(HttpServletRequest request) {
 
-        if (request.getParameter("search") == null | request.getParameter("search")=="") {
+        if (request.getParameter("search") == null | request.getParameter("search") == "") {
             return resaService.getResaList();
         } else {
             return resaService.getResaListSearchByClient(request.getParameter("search"));
@@ -50,7 +56,7 @@ public class ResaControllerApi {
 
     @GetMapping(path = "/filtered/hotel/{hotelId}", produces = "application/json")
     public Iterable<ResaEntity> getResaListByHotel(@PathVariable Integer hotelId, HttpServletRequest request) {
-        if (request.getParameter("search") == null | request.getParameter("search")=="") {
+        if (request.getParameter("search") == null | request.getParameter("search") == "") {
             return resaService.getResaListForOneHotel(hotelId);
         } else {
             return resaService.getResaListForOneHotelAndClient(hotelId, request.getParameter("search"));
@@ -58,41 +64,49 @@ public class ResaControllerApi {
     }
 
     @PostMapping(path = "", produces = "application/json")
-    public ResponseEntity<ResaEntity> addResaApi(@RequestBody ResaEntity resaRequestInput) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(
-                resaService.addResa(
-                        clientService.getClientById(resaRequestInput.getClient().getId())
-                                .orElseThrow(() -> {
-                                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Erreur dans la création de la réservation, le client n'a pas été trouvé");
-                                }),
-                        hotelService.getHotelById(resaRequestInput.getHotel().getId())
-                                .orElseThrow(() -> {
-                                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Erreur dans la création de la réservation, l'hôtel n'a pas été trouvé");
-                                }),
-                        resaRequestInput.getDateDeb(),
-                        resaRequestInput.getDateFin(),
-                        resaRequestInput.getNum_chambre()
-                )
-        );
+    public ResponseEntity<ResaEntity> addResaApi(@Valid @RequestBody ResaEntity resaRequestInput) {
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(
+                    resaService.addResa(
+                            clientService.getClientById(resaRequestInput.getClient().getId())
+                                    .orElseThrow(() -> {
+                                        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Erreur dans la création de la réservation, le client n'a pas été trouvé");
+                                    }),
+                            hotelService.getHotelById(resaRequestInput.getHotel().getId())
+                                    .orElseThrow(() -> {
+                                        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Erreur dans la création de la réservation, l'hôtel n'a pas été trouvé");
+                                    }),
+                            resaRequestInput.getDateDeb(),
+                            resaRequestInput.getDateFin(),
+                            resaRequestInput.getNumChambre()
+                    )
+            );
+        } catch (ChamberNotFreeException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT ,"Erreur de réservation - la chambre est déjà occupée");
+        }
     }
 
     @PutMapping(path = "/{id}", produces = "application/json")
     public ResponseEntity<ResaEntity> editResaApi(@RequestBody ResaEntity resaRequestInput, @PathVariable Integer id) {
-        return ResponseEntity.status(HttpStatus.OK).body(
-                resaService.editResaById(id,
-                        clientService.getClientById(resaRequestInput.getClient().getId())
-                                .orElseThrow(() -> {
-                                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Erreur dans la création de la réservation, le client n'a pas été trouvé");
-                                }),
-                        hotelService.getHotelById(resaRequestInput.getHotel().getId())
-                                .orElseThrow(() -> {
-                                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Erreur dans la création de la réservation, l'hôtel n'a pas été trouvé");
-                                }),
-                        resaRequestInput.getDateDeb(),
-                        resaRequestInput.getDateFin(),
-                        resaRequestInput.getNum_chambre()
-                )
-        );
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    resaService.editResaById(id,
+                            clientService.getClientById(resaRequestInput.getClient().getId())
+                                    .orElseThrow(() -> {
+                                        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Erreur dans la création de la réservation, le client n'a pas été trouvé");
+                                    }),
+                            hotelService.getHotelById(resaRequestInput.getHotel().getId())
+                                    .orElseThrow(() -> {
+                                        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Erreur dans la création de la réservation, l'hôtel n'a pas été trouvé");
+                                    }),
+                            resaRequestInput.getDateDeb(),
+                            resaRequestInput.getDateFin(),
+                            resaRequestInput.getNumChambre()
+                    )
+            );
+        } catch (ChamberNotFreeException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT ,"Erreur de réservation - la chambre est déjà occupée");
+        }
     }
 
     @DeleteMapping(path = "/{id}", produces = "application/json")
@@ -104,5 +118,6 @@ public class ResaControllerApi {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Suppression impossible - La réservation n'a pas été trouvée");
         }
     }
+
 
 }

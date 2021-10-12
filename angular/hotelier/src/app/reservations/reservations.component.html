@@ -27,8 +27,8 @@
             </button>
         </div>
         <div class="col-2 mx-auto ">
-            <div class="input-group"> 
-                <button type="button" class="btn btn-secondary" (click)="filtrer()" >
+            <div class="input-group">
+                <button type="button" class="btn btn-secondary" (click)="filtrer()">
                     <fa-icon [icon]=faSearch class="me-2"></fa-icon>Chercher par client
                 </button>
                 <input type="text" class="form-control" placeholder="Client" [(ngModel)]="clientRecherche" ngModel>
@@ -39,12 +39,11 @@
                 <button type="button" class="btn btn-warning" (click)="filtrer()">
                     <fa-icon [icon]=faFilter class="me-2"></fa-icon>Filtrer par hôtel
                 </button>
-                <select class="form-select" name="hotel" id="hotel"
-                    [(ngModel)]="hotelIdFiltre" ngModel>
+                <select class="form-select" name="hotel" id="hotel" [(ngModel)]="hotelIdFiltre" ngModel>
                     <option value="0" selected>Tous les hôtels</option>
                     <option *ngFor="let hotel of hotelList" [ngValue]="hotel.id">{{ hotel.nom }}</option>
                 </select>
-                
+
             </div>
         </div>
     </div>
@@ -70,7 +69,7 @@
                 <td> {{resa.client?.nom}}</td>
                 <td> {{resa.dateDeb}}</td>
                 <td> {{resa.dateFin}}</td>
-                <td> {{resa.num_chambre}}</td>
+                <td> {{resa.numChambre}}</td>
                 <td class="pe-4">
                     <div class="btn-group" role="group">
                         <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modal"
@@ -104,7 +103,18 @@
                 </div>
 
                 <div class="modal-body">
-
+                    <div class="m-3">
+                        <div class="alert alert-success mb-3 alert-dismissible fade show" role="alert"
+                            *ngFor="let successMessage of successMessageList">
+                            <fa-icon [icon]="faCheckCircle" class="me-2"></fa-icon>{{successMessage}}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <div class="alert alert-danger mb-3 alert-dismissible fade show" role="alert"
+                            *ngFor="let errorMessage of errorMessageList">
+                            <fa-icon [icon]="faExclamationTriangle" class="me-2"></fa-icon>{{errorMessage}}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
                     <div class="input-group flex-nowrap mb-3">
                         <label for="hotel" class="input-group-text" id="addon-wrapping">Hôtel</label>
                         <select class="form-select" name="hotel" id="hotel" [compareWith]="compareHotelFn"
@@ -127,8 +137,8 @@
                     </div>
                     <div class="input-group flex-nowrap mb-3">
                         <label for="num_chambre" class="input-group-text">Chambre n°</label>
-                        <input type="number" class="ps-2" name="num_chambre" id="num_chambre" max=100
-                            [(ngModel)]="resa.num_chambre" ngModel>
+                        <input type="number" class="ps-2" name="numChambre" id="numChambre" max=100
+                            [(ngModel)]="resa.numChambre" ngModel>
                     </div>
                 </div>
                 <div class="modal-footer">

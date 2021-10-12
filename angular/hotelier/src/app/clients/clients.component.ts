@@ -85,7 +85,7 @@ export class ClientsComponent implements OnInit {
           this.refreshView();
           this.successMessageList.push( "Client #" + data.id + " " + data.nom + " édité avec succès" );
         }, error => {
-          this.errorMessageList.push( "Erreur lors de l'édition du client #" + this.client.id );
+          this.errorMessageList.push( "Erreur lors de l'édition du client #" + this.client.id + ": "+  JSON.stringify( error.error ) );
         }
       );
     }

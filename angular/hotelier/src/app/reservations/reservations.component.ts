@@ -74,7 +74,11 @@ export class ReservationsComponent implements OnInit {
           this.refreshView();
           this.successMessageList.push( "Nouvelle réservation #" + data.id + " ajoutée avec succès" );
         }, error => {
-          this.errorMessageList.push( "Erreur lors de la création de la nouvelle réservation" );
+          if ( error.status == 500 ) {
+            this.errorMessageList.push( "Erreur lors de l'édition de la réservation #" + this.resa.id + ": " + JSON.stringify( error.error ) );
+          } else {
+            this.errorMessageList.push( "Erreur lors de l'édition de la réservation #" + this.resa.id + ": " + JSON.stringify( error.error.message ) );
+          };
         }
       );
     } else { //edition
@@ -85,7 +89,12 @@ export class ReservationsComponent implements OnInit {
           this.refreshView();
           this.successMessageList.push( "Réservation #" + data.id + " éditée avec succès" );
         }, error => {
-          this.errorMessageList.push( "Erreur lors de l'édition de la réservation #" + this.resa.id );
+          if ( error.status == 500 ) {
+            this.errorMessageList.push( "Erreur lors de l'édition de la réservation #" + this.resa.id + ": " + JSON.stringify( error.error ) );
+          } else {
+            this.errorMessageList.push( "Erreur lors de l'édition de la réservation #" + this.resa.id + ": " + JSON.stringify( error.error.message ) );
+          }
+
         }
       );
     }

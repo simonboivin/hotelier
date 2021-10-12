@@ -51,12 +51,16 @@ export class ClientsComponent implements OnInit {
   add (): void {
     this.client = new ClientEntity();
     this.modalTitre = "Ajout d'un nouveau client";
+    this.errorMessageList = [];
+    this.successMessageList = [];
   }
 
   edit ( id: number ): void {
     this.clientService.getClientById( id ).subscribe( data => {
       this.client = data;
       this.modalTitre = "Edition du client " + data.id;
+      this.errorMessageList = [];
+      this.successMessageList = [];
     } );
   }
 
@@ -69,7 +73,8 @@ export class ClientsComponent implements OnInit {
           this.refreshView();
           this.successMessageList.push( "Nouveau client #" + data.id + " " + data.nom + " ajouté avec succès" );
         }, error => {
-          this.errorMessageList.push( "Erreur lors de la création du nouveau client" );
+
+          this.errorMessageList.push( "Erreur lors de la création du nouveau client: " + JSON.stringify( error.error ) );
         }
       );
     } else { //Edition
@@ -80,7 +85,7 @@ export class ClientsComponent implements OnInit {
           this.refreshView();
           this.successMessageList.push( "Client #" + data.id + " " + data.nom + " édité avec succès" );
         }, error => {
-          this.errorMessageList.push( "Erreur lors de l'édition du client #" + this.client.id );
+          this.errorMessageList.push( "Erreur lors de l'édition du client #" + this.client.id + ": "+  JSON.stringify( error.error ) );
         }
       );
     }

@@ -38,15 +38,17 @@ public class ResaService {
 
     /**
      * Chercher une réservation par nom de client
+     *
      * @param client Nom du client
      */
     public Iterable<ResaEntity> getResaListSearchByClient(String client) {
         return resaRepository.findAllByClient_NomContains(client);
     }
+
     /**
      * Obtenir la liste des réservations pour un hôtel
      *
-     * @param hotelId  Id de l'Hôtel
+     * @param hotelId Id de l'Hôtel
      */
     public Iterable<ResaEntity> getResaListForOneHotel(Integer hotelId) {
         return resaRepository.findAllByHotel(hotelService.getHotelById(hotelId).orElse(null));
@@ -59,21 +61,41 @@ public class ResaService {
     /**
      * Paramètre une réservation
      *
-     * @param resa        Réservation à paramétrer
-     * @param client      Client faisant la réservation
-     * @param hotel       Hotel concerné par la réservation
-     * @param dateDeb     Date d'arrivée du client
-     * @param dateFin     Date de départ du client
-     * @param num_chambre Numéro de la chambre réservée
+     * @param resa       Réservation à paramétrer
+     * @param client     Client faisant la réservation
+     * @param hotel      Hotel concerné par la réservation
+     * @param dateDeb    Date d'arrivée du client
+     * @param dateFin    Date de départ du client
+     * @param numChambre Numéro de la chambre réservée
      * @return Réservation
      */
-    public ResaEntity setResa(ResaEntity resa, ClientEntity client, HotelEntity hotel, LocalDate dateDeb, LocalDate dateFin, Integer num_chambre) {
-        resa.setClient(client);
-        resa.setHotel(hotel);
-        resa.setDateDeb(dateDeb);
-        resa.setDateFin(dateFin);
-        resa.setNum_chambre(num_chambre);
-        return resa;
+    private ResaEntity setResa(ResaEntity resa, ClientEntity client, HotelEntity hotel, LocalDate dateDeb, LocalDate dateFin, Integer numChambre) throws ChamberNotFreeException {
+       if(chamberIsFree(hotel,dateDeb,dateFin,numChambre)) {
+           resa.setClient(client);
+           resa.setHotel(hotel);
+           resa.setDateDeb(dateDeb);
+           resa.setDateFin(dateFin);
+           resa.setNumChambre(numChambre);
+           return resa;
+       } else {
+       throw new ChamberNotFreeException();
+       }
+    }
+
+    private boolean chamberIsFree (HotelEntity hotel, LocalDate dateDeb, LocalDate dateFin, Integer numChambre){
+        System.out.println("-----------------verification conflit resa--------------------");
+        Iterable<ResaEntity> resaListChambre = resaRepository.findAllByNumChambreAndHotel(numChambre, hotel);
+        for (ResaEntity i : resaListChambre) {
+            if((dateDeb.isAfter(i.getDateDeb()) & dateDeb.isBefore(i.getDateFin())) | (dateFin.isAfter(i.getDateDeb()) & dateFin.isBefore(i.getDateFin())) ){
+                System.out.println("=============");
+                System.out.println("conflit resa");
+                System.out.println(i.getId());
+                System.out.println(i.getClient().getNom());
+                System.out.println("==========");
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -86,7 +108,7 @@ public class ResaService {
      * @param num_chambre Numéro de la chambre réservée
      * @return Réservation
      */
-    public ResaEntity addResa(ClientEntity client, HotelEntity hotel, LocalDate dateDeb, LocalDate dateFin, Integer num_chambre) {
+    public ResaEntity addResa(ClientEntity client, HotelEntity hotel, LocalDate dateDeb, LocalDate dateFin, Integer num_chambre) throws ChamberNotFreeException {
         ResaEntity resa = setResa(new ResaEntity(), client, hotel, dateDeb, dateFin, num_chambre);
         resaRepository.save(resa);
         return resa;
@@ -103,7 +125,7 @@ public class ResaService {
      * @param num_chambre Numéro de la chambre réservée
      * @return Réservation
      */
-    public ResaEntity editResaById(Integer id, ClientEntity client, HotelEntity hotel, LocalDate dateDeb, LocalDate dateFin, Integer num_chambre) {
+    public ResaEntity editResaById(Integer id, ClientEntity client, HotelEntity hotel, LocalDate dateDeb, LocalDate dateFin, Integer num_chambre) throws ChamberNotFreeException {
         Optional<ResaEntity> resaOptional = resaRepository.findById(id);
         if (resaOptional.isPresent()) {
             ResaEntity resa = setResa(resaOptional.get(), client, hotel, dateDeb, dateFin, num_chambre);

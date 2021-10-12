@@ -2,11 +2,13 @@
     <h1 class="mb-4">Liste des Clients</h1>
 
     <div class="m-3">
-        <div class="alert alert-success mb-3 alert-dismissible fade show" role="alert" *ngFor="let successMessage of successMessageList">
+        <div class="alert alert-success mb-3 alert-dismissible fade show" role="alert"
+            *ngFor="let successMessage of successMessageList">
             <fa-icon [icon]="faCheckCircle" class="me-2"></fa-icon>{{successMessage}}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        <div class="alert alert-danger mb-3 alert-dismissible fade show" role="alert" *ngFor="let errorMessage of errorMessageList">
+        <div class="alert alert-danger mb-3 alert-dismissible fade show" role="alert"
+            *ngFor="let errorMessage of errorMessageList">
             <fa-icon [icon]="faExclamationTriangle" class="me-2"></fa-icon>{{errorMessage}}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -76,15 +78,27 @@
                 </div>
 
                 <div class="modal-body">
+                    <div class="m-3">
+                        <div class="alert alert-success mb-3 alert-dismissible fade show" role="alert"
+                            *ngFor="let successMessage of successMessageList">
+                            <fa-icon [icon]="faCheckCircle" class="me-2"></fa-icon>{{successMessage}}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <div class="alert alert-danger mb-3 alert-dismissible fade show" role="alert"
+                            *ngFor="let errorMessage of errorMessageList">
+                            <fa-icon [icon]="faExclamationTriangle" class="me-2"></fa-icon>{{errorMessage}}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
                     <div class="input-group mb-3">
                         <label for="nom" class="input-group-text">Nom</label>
                         <input type="text" class="form-control" id="nom" name="nom" placeholder="Nom"
-                            [(ngModel)]="client.nom" ngModel minlength="2" required>
+                            [(ngModel)]="client.nom" ngModel minlength="2">
                     </div>
                     <div class="input-group mb-3">
                         <label for="telephone" class="input-group-text">Téléphone</label>
                         <input type="text" class="form-control" id="telephone" name="telephone" placeholder="Téléphone"
-                            [(ngModel)]="client.telephone" ngModel minlength="2" required>
+                            [(ngModel)]="client.telephone" ngModel minlength="2">
                     </div>
                     <div class="input-group mb-3">
                         <label for="email" class="input-group-text">Email</label>
@@ -94,7 +108,7 @@
                     <div class="input-group mb-3">
                         <label for="adresse" class="input-group-text">Adresse</label>
                         <input type="text" class="form-control" id="adresse" name="adresse" placeholder="Adresse"
-                            [(ngModel)]="client.adresse" ngModel required>
+                            [(ngModel)]="client.adresse" ngModel>
                     </div>
                 </div>
                 <div class="modal-footer">

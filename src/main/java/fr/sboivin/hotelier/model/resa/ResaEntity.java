@@ -32,7 +32,7 @@ public class ResaEntity {
     private LocalDate dateFin;
 
     @Column(nullable = false)
-    private Integer num_chambre;
+    private Integer numChambre;
 
     public Integer getId() {
         return id;
@@ -70,12 +70,12 @@ public class ResaEntity {
         this.dateFin = dateFin;
     }
 
-    public Integer getNum_chambre() {
-        return num_chambre;
+    public Integer getNumChambre() {
+        return numChambre;
     }
 
-    public void setNum_chambre(Integer num_chambre) {
-        this.num_chambre = num_chambre;
+    public void setNumChambre(Integer numChambre) {
+        this.numChambre = numChambre;
     }
 
     @Override
@@ -83,11 +83,11 @@ public class ResaEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ResaEntity that = (ResaEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(client, that.client) && Objects.equals(hotel, that.hotel) && Objects.equals(dateDeb, that.dateDeb) && Objects.equals(dateFin, that.dateFin) && Objects.equals(num_chambre, that.num_chambre);
+        return Objects.equals(id, that.id) && Objects.equals(client, that.client) && Objects.equals(hotel, that.hotel) && Objects.equals(dateDeb, that.dateDeb) && Objects.equals(dateFin, that.dateFin) && Objects.equals(numChambre, that.numChambre);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, client, hotel, dateDeb, dateFin, num_chambre);
+        return Objects.hash(id, client, hotel, dateDeb, dateFin, numChambre);
     }
 }

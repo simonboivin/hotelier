@@ -40,7 +40,7 @@ class ResaServiceTest {
     private  ResaEntity resa3;
 
     @BeforeEach
-     void beforeEach() {
+     void beforeEach() throws ChamberNotFreeException {
         client1 = clientService.addClient("Alphonse Elric", "+333658554", "alphone.elric@gmail.com", "5 Rue Nicolas Flammel - 3300 Bordeaux");
         client2 = clientService.addClient("Edouard Elric", "+333658555", "edouard.elric@gmail.com", "5 Rue Nicolas Flammel - 3300 Bordeaux");
         hotel1 = hotelService.addHotel("Hôtel Amestris", 4, "42 Rue de la pierre philosophale - 74000 Annecy", "+3344250000", "amestris@hotel.io", "Annecy");

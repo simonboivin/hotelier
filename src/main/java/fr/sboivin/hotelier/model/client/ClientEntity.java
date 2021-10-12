@@ -1,11 +1,14 @@
 package fr.sboivin.hotelier.model.client;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name="client")
+@Table(name = "client")
 public class ClientEntity implements Serializable {
 
     @Id
@@ -13,12 +16,16 @@ public class ClientEntity implements Serializable {
     private Integer id;
 
     @Column(name = "nom_complet", nullable = false)
+    @NotBlank(message = "Le nom ne peut être vide.")
     private String nom;
 
+    @Size(min = 0, max = 12, message = "Le numéro de téléphone ne doit pas dépasser 12 caractères")
+    @NotBlank(message = "Le numéro de téléphone ne peut être vide.")
     @Column(length = 12) //format international e.g. +33101010101
     private String telephone;
 
-    @Column(unique = true)
+    @Column()
+    @Email(message = "Email non valide.")
     private String email;
 
     @Column()

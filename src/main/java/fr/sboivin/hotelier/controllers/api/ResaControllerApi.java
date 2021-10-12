@@ -8,15 +8,11 @@ import fr.sboivin.hotelier.model.resa.ResaService;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -82,7 +78,7 @@ public class ResaControllerApi {
                     )
             );
         } catch (ChamberNotFreeException e) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT ,"Erreur de réservation - la chambre est déjà occupée");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Erreur de réservation - la chambre est déjà occupée");
         }
     }
 
@@ -105,7 +101,7 @@ public class ResaControllerApi {
                     )
             );
         } catch (ChamberNotFreeException e) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT ,"Erreur de réservation - la chambre est déjà occupée");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Erreur de réservation - la chambre est déjà occupée");
         }
     }
 
@@ -118,6 +114,5 @@ public class ResaControllerApi {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Suppression impossible - La réservation n'a pas été trouvée");
         }
     }
-
 
 }

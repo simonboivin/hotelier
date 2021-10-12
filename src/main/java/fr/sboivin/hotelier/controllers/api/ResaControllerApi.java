@@ -3,6 +3,7 @@ package fr.sboivin.hotelier.controllers.api;
 import fr.sboivin.hotelier.model.client.ClientService;
 import fr.sboivin.hotelier.model.hotel.HotelService;
 import fr.sboivin.hotelier.model.resa.ChamberNotFreeException;
+import fr.sboivin.hotelier.model.resa.DateNonValideException;
 import fr.sboivin.hotelier.model.resa.ResaEntity;
 import fr.sboivin.hotelier.model.resa.ResaService;
 import org.hibernate.ObjectNotFoundException;
@@ -79,6 +80,8 @@ public class ResaControllerApi {
             );
         } catch (ChamberNotFreeException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Erreur de réservation - la chambre est déjà occupée");
+        } catch (DateNonValideException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Erreur de réservation - la date de départ est antérieure à la date d'arrivée ou les deux dates sont les mêmes");
         }
     }
 
@@ -102,6 +105,8 @@ public class ResaControllerApi {
             );
         } catch (ChamberNotFreeException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Erreur de réservation - la chambre est déjà occupée");
+        } catch (DateNonValideException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Erreur de réservation - la date de départ est antérieure à la date d'arrivée ou les deux dates sont les mêmes");
         }
     }
 

@@ -1,7 +1,7 @@
 package fr.sboivin.hotelier.config.security;
 
 import fr.sboivin.hotelier.model.admin.AdminEntity;
-import fr.sboivin.hotelier.model.admin.AdminService;
+import fr.sboivin.hotelier.model.admin.AdminRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,15 +12,17 @@ import java.util.Optional;
 @Service
 public class AdminDetailsServiceImplementation implements UserDetailsService {
 
-    private AdminService adminService;
 
-    public AdminDetailsServiceImplementation(AdminService adminService) {
-        this.adminService = adminService;
+    private final AdminRepository adminRepository;
+
+    public AdminDetailsServiceImplementation(AdminRepository adminRepository) {
+        this.adminRepository = adminRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Optional<AdminEntity> adminOptional = adminService.getAdminByUsername(s);
+
+        Optional<AdminEntity> adminOptional = adminRepository.findByUsername(s);
         if (adminOptional.isPresent()) {
             return new AdminDetailsImplementation(adminOptional.get());
         } else {

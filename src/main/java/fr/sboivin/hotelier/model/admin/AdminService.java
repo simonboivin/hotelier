@@ -1,7 +1,6 @@
 package fr.sboivin.hotelier.model.admin;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,10 +9,14 @@ import java.util.Optional;
 @Service
 public class AdminService {
 
-    @Autowired
-    private AdminRepository adminRepository;
+    private final AdminRepository adminRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+    public AdminService(AdminRepository adminRepository, PasswordEncoder passwordEncoder) {
+        this.adminRepository = adminRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public Iterable<AdminEntity> getAllAdmins() {
         return adminRepository.findAll();
@@ -25,7 +28,7 @@ public class AdminService {
 
     private AdminEntity setAdmin(AdminEntity admin, String username, String password, Role role) {
         admin.setUsername(username);
-        admin.setPassword(encoder.encode(password));
+        admin.setPassword(passwordEncoder.encode(password));
         admin.setRole(role);
         return admin;
     }
